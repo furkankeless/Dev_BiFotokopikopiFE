@@ -18,7 +18,12 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "scripts.worker.js",
+                "input": "node_modules/pdfjs-dist",
+                "output": "/"
+              }
             ],
             "styles": [
               "src/styles.css",
@@ -46,7 +51,9 @@
               "node_modules/bootstrap/js/dist/tab.js",
               "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
               "node_modules/bootstrap-select/dist/js/bootstrap-select.min.js",
-              "node_modules/bootstrap-select/dist/js/i18n/defaults-tr_TR.js"
+              "node_modules/bootstrap-select/dist/js/i18n/defaults-tr_TR.js",
+              "node_modules/pdfjs-dist/build/pdf.js"
+
             ],
             "allowedCommonJsDependencies": [
               "rxjs/add/operator/filter",

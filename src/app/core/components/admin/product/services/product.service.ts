@@ -4,15 +4,25 @@ import { Observable } from 'rxjs';
 import { Product } from '../models/product';
 import { environment } from 'environments/environment';
 import { ProductDto } from '../models/productDto';
+import { ESize } from '../models/eSize';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
+  private selectedSize: string;
 
   constructor(private httpClient: HttpClient) { }
 
+
+  public setSize(size: string): void {
+    this.selectedSize = size;
+  }
+
+  public getSize(): string {
+    return this.selectedSize;
+  }
 
   getProductList(): Observable<Product[]> {
 
@@ -36,9 +46,10 @@ export class ProductService {
     return this.httpClient.put(environment.getApiUrl + '/products/', product, { responseType: 'text' });
 
   }
+  
 
   deleteProduct(id: number) {
-    return this.httpClient.request('delete', environment.getApiUrl + '/products/', { body: { id: id } });
+    return this.httpClient.request('delete', environment.getApiUrl + '/products/'+id);
   }
 
 

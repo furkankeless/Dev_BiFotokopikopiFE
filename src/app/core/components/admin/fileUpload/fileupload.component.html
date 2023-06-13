@@ -1,0 +1,154 @@
+﻿<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title ">{{'FileUploadList'| translate}}</h4>
+            <a *ngIf="checkClaim('CreateFileUploadCommand')" class="pull-right" data-toggle="modal" data-target="#fileupload"> <i style="color:white"  title="{{'Add'| translate}}" class="far fa-plus-square fa-2x"></i></a>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              
+              <div class="col-md-4 pull-right">
+                <mat-form-field>
+                  <mat-label>Filter</mat-label>
+                  <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                </mat-form-field>
+              </div>
+							<table mat-table [dataSource]="dataSource" matSort>
+
+
+								
+                  
+	
+                   <ng-container matColumnDef="createdUserId">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'CreatedUserId'|translate}}</th>
+                     <td mat-cell *matCellDef="let element">{{element.createdUserId}}</td>
+				   </ng-container>
+	
+                   <ng-container matColumnDef="createdDate">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'CreatedDate'|translate}}</th>
+                     <td mat-cell *matCellDef="let element">{{element.createdDate}}</td>
+				   </ng-container>
+	
+	
+                   
+	
+                   <ng-container matColumnDef="status">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Status'|translate}}</th>
+                     <td mat-cell *matCellDef="let element"> 
+                        <mat-checkbox [checked]="element.status" [disabled]="true"></mat-checkbox>
+                     </td>
+				   </ng-container>
+	
+                   
+	
+                   <ng-container matColumnDef="fileName">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'FileName'|translate}}</th>
+                     <td mat-cell *matCellDef="let element">{{element.fileName}}</td>
+				   </ng-container>
+	
+                   <ng-container matColumnDef="filePath">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'FilePath'|translate}}</th>
+                     <td mat-cell *matCellDef="let element">{{element.filePath}}</td>
+				   </ng-container>
+
+
+
+
+								<ng-container matColumnDef="update" >
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td style="width: 25px;" mat-cell
+                    *matCellDef="let element">
+                    <a *ngIf="checkClaim('UpdateFileUploadCommand')" data-toggle="modal" data-target="#fileupload"  (click)="getFileUploadById(element.id)">
+                      <i title="{{'Update'| translate}}" style="color:#ff5722;" class="far fa-edit"></i>
+                    </a>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="delete" >
+                  <th mat-header-cell *matHeaderCellDef></th>
+                  <td  style="width: 25px;" mat-cell
+                    *matCellDef="let element">
+                    <a *ngIf="checkClaim('DeleteFileUploadCommand')" (confirm)="deleteFileUpload(element.id)" [swal]="deleteSwal"><i title="{{'Delete'| translate}}" style="color: #D9534E;"class="fas fa-trash-alt"></i></a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <tr class="mat-row" *matNoDataRow style="text-align: center;">
+                  <td class="mat-cell" colspan="4">{{'NoRecordsFound' |translate}} "{{input.value}}"</td>
+                </tr>
+							</table>
+							<mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>
+							</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal modal-angular fade" id="fileupload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          (click)="clearFormGroup(fileUploadAddForm)"><span aria-hidden="true">&times;</span></button>
+        <h4 class="margin-top">
+           {{'FileUploadForm'| translate}}
+        </h4>
+        <div class="separator"></div>
+        <form *ngIf="fileUploadAddForm" [formGroup]="fileUploadAddForm" (ngSubmit)="save()">
+          
+					
+				
+				<div class="row">
+            <div class="col col-md-2">
+                       <mat-checkbox  formControlName="status" id="status" name="status" > status
+                      </mat-checkbox>
+            </div>
+          </div>
+					
+          
+          <div class="row">
+            <div class="col col-md-12">
+              <input type="file" id="fileData" #fileInput name="fileData" (change)="onFileSelected($event)"formControlName="fileData" />
+
+              <div class="alert alert-danger"
+                   *ngIf="fileUploadAddForm.get('fileData')!.hasError('required') && fileUploadAddForm.get('fileData')!.dirty">
+                Field is required.
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+          <div class="col-md-12">
+            <select class="browser-default custom-select" formControlName="page" >
+              <option *ngFor="let symbol of keys(page)"  [value]="symbol">{{symbol}}</option>
+            </select>
+          </div>
+        </div>  
+        <div class="row">
+          <div class="col-md-6">
+            <img [src]="getImagePath()" alt="Image" style="width: 300px; height: 100px;">
+          </div>
+        </div>
+          
+                   
+          <button mat-raised-button type="submit" class="btn btn-danger pull-right">{{'Save'|translate}}</button>
+          <div class="clearfix"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<swal #deleteSwal title="{{'DeleteConfirm' | translate}}" icon = "error" [showCancelButton]="true"
+	[confirmButtonText] = "'OK'"[cancelButtonText] = "'Cancel'" >
+</swal>
+

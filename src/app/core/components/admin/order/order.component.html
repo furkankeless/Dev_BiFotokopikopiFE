@@ -175,14 +175,13 @@
               </mat-form-field>
             </div>
           </div>
-					<div class="row">
-           
-            <div class="col-md-12">
-              <select class="browser-default custom-select" formControlName="size">
+          <div class="row">
+          <div class="col-md-12">
+              <select class="browser-default custom-select" formControlName="size" >
                 <option *ngFor="let symbol of keys(size)"  [value]="symbol">{{symbol}}</option>
               </select>
 						</div>
-          </div>    
+          </div>  
                    
           <button mat-raised-button type="submit" class="btn btn-danger pull-right">{{'Save'|translate}}</button>
           <div class="clearfix"></div>

@@ -27,7 +27,10 @@ export const USERROUTES: RouteInfo[] = [
   { path: '/customer', title: 'Customers', icon: 'how_to_reg', class: '', claim: "GetCustomersQuery" },
   { path: '/order', title: 'Orders', icon: 'shopping_cart', class: '', claim: "GetOrdersQuery" },
   { path: '/product', title: 'Products', icon: 'local_grocery_store', class: '', claim: "GetProductsQuery" },
-  { path: '/storage', title: 'Storages', icon: 'store', class: '', claim: "GetStoragesQuery" }
+  { path: '/storage', title: 'Storages', icon: 'store', class: '', claim: "GetStoragesQuery" },
+  { path: '/fileupload', title: 'FileUpload', icon: 'store', class: '', claim: "GetFileUploadsQuery" },
+
+
 ];
 
 @Component({

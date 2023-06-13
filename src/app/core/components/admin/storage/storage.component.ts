@@ -45,10 +45,11 @@ export class StorageComponent implements AfterViewInit, OnInit {
 
 	keys=Object.keys;
 	size=ESize;
-
 	storageId:number;
 
-	constructor(private productService:ProductService,private datePipe:DatePipe,private storageService:StorageService, private lookupService:LookUpService,private alertifyService:AlertifyService,private formBuilder: FormBuilder, private authService:AuthService) {  }
+
+	constructor(private productService:ProductService,private datePipe:DatePipe,private storageService:StorageService, private lookupService:LookUpService,private alertifyService:AlertifyService,private formBuilder: FormBuilder, private authService:AuthService)
+	 {   }
 
     ngAfterViewInit(): void {
         this.getStorageDtoList();
@@ -56,10 +57,9 @@ export class StorageComponent implements AfterViewInit, OnInit {
 
 	ngOnInit() {
 		this.getProductList();
-
+		this.authService.getCurrentUserId();
 		this.createStorageAddForm();
 		
-
 	}
 	getUserLookUps() {
 		this.lookupService.getUserLookUp().subscribe(
@@ -77,7 +77,7 @@ export class StorageComponent implements AfterViewInit, OnInit {
 			this.product = data;
 			this.filteredProducts = this.storageAddForm.controls.productId.valueChanges.pipe(
 				startWith(''),
-				map(value => typeof value === 'string' ? value : value.productName),
+				map(value => typeof value === 'string' ? value : value?.productName),
 				map(name => name ? this._filter(name) : this.product.slice())
 			);
 
@@ -97,12 +97,6 @@ export class StorageComponent implements AfterViewInit, OnInit {
 		});
 	}
 
-	getSizeLabel(size: number): string {
-		const sizeKeys = Object.keys(ESize).filter(key => isNaN(Number(key)));
-		const sizeValues = sizeKeys.map(key => ESize[key]);
-	  
-		return sizeValues[size];
-	  }
 
 	
 	save(){
@@ -110,12 +104,19 @@ export class StorageComponent implements AfterViewInit, OnInit {
 		if (this.storageAddForm.valid) {
 			this.storage = Object.assign({}, this.storageAddForm.value)
 			this.storage.productId = this.storageAddForm.controls.productId.value.id
-			if (this.storage.id == 0)
+			if (this.storage.id == 0){
+				this.storage.createdUserId=this.authService.getCurrentUserId();
 				this.addStorage();
-			else
-				this.updateStorage();
-		}
+				
+			}
+			else{
+				this.storage.lastUpdatedDate=this.authService.getCurrentUserId();
 
+				this.updateStorage();
+
+		
+			}
+		}
 	}
 
 	addStorage() {
@@ -162,13 +163,12 @@ export class StorageComponent implements AfterViewInit, OnInit {
 	}
 
 	createStorageAddForm() {
-		const currentUserId = this.authService.getCurrentUserId();
 		this.storageAddForm = this.formBuilder.group({		
 			id : [0],
 			
 			
-			createdUserId: [currentUserId],
-    		lastUpdatedUserId: [currentUserId],
+			createdUserId: [0],
+    		lastUpdatedUserId: [0],
 			status : [true],
 			isDeleted: [false,Validators.required],
 			productId:[0,Validators.required],

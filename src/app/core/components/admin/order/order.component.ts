@@ -42,6 +42,8 @@ export class OrderComponent implements AfterViewInit, OnInit {
 
 	orderId:number;
 
+
+
 	constructor(private orderService:OrderService,private costumerService:CustomerService, private productService:ProductService,private lookupService:LookUpService,private alertifyService:AlertifyService,private formBuilder: FormBuilder, private authService:AuthService) { }
 
 
@@ -60,6 +62,7 @@ export class OrderComponent implements AfterViewInit, OnInit {
 		this.authService.getCurrentUserId();
 		this.getProductList();
 		this.getCustomerList();
+		
 
 	}
 
@@ -140,9 +143,9 @@ export class OrderComponent implements AfterViewInit, OnInit {
 			
 
 		},
-		error => {
+		(error) => {
 			console.error(error);
-			this.alertifyService.error(error.name);
+			this.alertifyService.error(error.error);
 		  }
 		); 
 		

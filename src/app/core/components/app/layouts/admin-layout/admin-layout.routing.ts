@@ -12,6 +12,7 @@ import { CustomerComponent } from 'app/core/components/admin/customer/customer.c
 import { OrderComponent } from 'app/core/components/admin/order/order.component';
 import { ProductComponent } from 'app/core/components/admin/product/product.component';
 import { StorageComponent } from 'app/core/components/admin/storage/storage.component';
+import { FileUploadComponent } from 'app/core/components/admin/fileUpload/fileUpload.component';
 
 
 
@@ -30,6 +31,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'customer', component: CustomerComponent, canActivate: [LoginGuard] },
     { path: 'order', component: OrderComponent, canActivate: [LoginGuard] },
     { path: 'product', component: ProductComponent, canActivate: [LoginGuard] },
-    {path:'storage',component:StorageComponent,canActivate:[LoginGuard]}
+     {path: 'storage',component:StorageComponent,canActivate:[LoginGuard]},
+     {path: 'fileupload',component:FileUploadComponent,canActivate:[LoginGuard]},
+
     
 ];

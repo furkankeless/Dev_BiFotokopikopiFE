@@ -34,6 +34,7 @@ import { CustomerComponent } from '../components/admin/customer/customer.compone
 import {  MatAutocompleteModule } from "@angular/material/autocomplete";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DatePipe } from '@angular/common';
+import { FileUploadComponent } from '../components/admin/fileUpload/fileUpload.component';
 
 
 // export function layoutHttpLoaderFactory(http: HttpClient) {
@@ -82,7 +83,8 @@ import { DatePipe } from '@angular/common';
         StorageComponent,
         OrderComponent,
         ProductComponent,
-        CustomerComponent
+        CustomerComponent,
+        FileUploadComponent
 
     ],
     providers:[
